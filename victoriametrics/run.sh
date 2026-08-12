@@ -21,7 +21,7 @@ chmod 600 "${AUTH_CONFIG_FILE}"
 
 bashio::log.info "Starting VictoriaMetrics..."
 bashio::log.info "Log level: ${LOG_LEVEL}"
-bashio::log.info "Retention period: ${RETENTION_PERIOD} months"
+bashio::log.info "Retention period: ${RETENTION_PERIOD}"
 bashio::log.info "vmauth is enabled on port 8428 for user ${USERNAME}."
 
 cd /opt/victoriametrics || bashio::exit.nok "VictoriaMetrics installation directory not found."

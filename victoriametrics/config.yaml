@@ -14,7 +14,7 @@ ports_description:
   8428/tcp: "VictoriaMetrics HTTP API and Web UI"
 options:
   log_level: INFO
-  retention_period: "1"
+  retention_period: "1m"
   username: "admin"
   password: "change-me"
 schema:

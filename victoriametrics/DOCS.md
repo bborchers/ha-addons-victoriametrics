@@ -13,7 +13,7 @@ http://<home-assistant-ip>:8428
 
 ```yaml
 log_level: INFO
-retention_period: "1"
+retention_period: "1m"
 username: "admin"
 password: "change-me"
 ```
@@ -24,7 +24,7 @@ Controls VictoriaMetrics log verbosity. Supported values are `ERROR`, `WARN`, `I
 
 ### Option: `retention_period`
 
-Retention period in months. VictoriaMetrics removes samples older than this period. The minimum supported value is `0.001` (approximately 1 hour); the default is `1` month. See the [VictoriaMetrics retention documentation](https://docs.victoriametrics.com/victoriametrics/#retention).
+Retention period passed to VictoriaMetrics as `-retentionPeriod`. The default is `1m` (one month). Values may use VictoriaMetrics duration units such as `d` (days), `w` (weeks), `m` (months), or `y` (years). See the [VictoriaMetrics retention documentation](https://docs.victoriametrics.com/victoriametrics/#retention).
 
 ### Option: `username`
 

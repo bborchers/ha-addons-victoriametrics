@@ -1,0 +1,13 @@
+configuration:
+  log_level:
+    name: Log-Level
+    description: Legt die Ausführlichkeit der VictoriaMetrics-Logs fest.
+  retention_period:
+    name: Aufbewahrungsdauer
+    description: Gibt an, wie lange VictoriaMetrics Daten aufbewahrt. Standard ist 1m (ein Monat); es können VictoriaMetrics-Zeitangaben wie d, w, m oder y verwendet werden.
+  username:
+    name: Benutzername
+    description: Benutzername für die HTTP-Basic-Authentifizierung über vmauth.
+  password:
+    name: Passwort
+    description: Passwort für die HTTP-Basic-Authentifizierung über vmauth. Vor der Erreichbarkeit aus anderen Netzwerken den Standardwert ändern.
