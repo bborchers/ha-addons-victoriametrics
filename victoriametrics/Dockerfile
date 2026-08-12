@@ -18,7 +18,13 @@ RUN \
         "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v${VICTORIAMETRICS_VERSION}/victoria-metrics-linux-${VICTORIAMETRICS_ARCH}-v${VICTORIAMETRICS_VERSION}.tar.gz" \
     && mkdir -p /opt/victoriametrics \
     && tar -xzf /tmp/victoriametrics.tar.gz -C /opt/victoriametrics \
-    && rm -f /tmp/victoriametrics.tar.gz
+    && rm -f /tmp/victoriametrics.tar.gz \
+    && curl -fsSL -o /tmp/vmutils.tar.gz \
+        "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/v${VICTORIAMETRICS_VERSION}/vmutils-linux-${VICTORIAMETRICS_ARCH}-v${VICTORIAMETRICS_VERSION}.tar.gz" \
+    && mkdir -p /opt/vmauth \
+    && tar -xzf /tmp/vmutils.tar.gz -C /opt/vmauth \
+    && rm -f /tmp/vmutils.tar.gz \
+    && test -x /opt/vmauth/vmauth-prod
 
 COPY run.sh /
 RUN chmod a+x /run.sh
