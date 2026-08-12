@@ -1,0 +1,13 @@
+configuration:
+  log_level:
+    name: Log Level
+    description: Controls the verbosity of the VictoriaMetrics logs.
+  retention_period:
+    name: Retention Period
+    description: How long VictoriaMetrics keeps data. The default is 1m (one month); use VictoriaMetrics duration units such as d, w, m, or y.
+  username:
+    name: Username
+    description: Username required for HTTP Basic Authentication through vmauth.
+  password:
+    name: Password
+    description: Password required for HTTP Basic Authentication through vmauth. Change the default before exposing the add-on to other networks.
