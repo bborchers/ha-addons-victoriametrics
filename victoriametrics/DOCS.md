@@ -2,7 +2,8 @@
 
 This add-on provides the open-source [VictoriaMetrics single-node server](https://docs.victoriametrics.com/victoriametrics/), a fast and resource-efficient time-series database for Prometheus-compatible metrics.
 
-The HTTP API and built-in web UI are available at:
+The HTTP API and built-in web UI are available at and protected by HTTP Basic
+Authentication:
 
 ```text
 http://<home-assistant-ip>:8428
@@ -13,6 +14,8 @@ http://<home-assistant-ip>:8428
 ```yaml
 log_level: INFO
 retention_period: "1"
+username: "admin"
+password: "change-me"
 ```
 
 ### Option: `log_level`
@@ -22,6 +25,14 @@ Controls VictoriaMetrics log verbosity. Supported values are `ERROR`, `WARN`, `I
 ### Option: `retention_period`
 
 Retention period in months. VictoriaMetrics removes samples older than this period. The minimum supported value is `0.001` (approximately 1 hour); the default is `1` month. See the [VictoriaMetrics retention documentation](https://docs.victoriametrics.com/victoriametrics/#retention).
+
+### Option: `username`
+
+Username required by the `vmauth` proxy on port `8428`. Default: `admin`.
+
+### Option: `password`
+
+Password required by the `vmauth` proxy on port `8428`. Change the default before exposing the add-on to other networks.
 
 ## Using VictoriaMetrics
 

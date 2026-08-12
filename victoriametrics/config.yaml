@@ -15,6 +15,10 @@ ports_description:
 options:
   log_level: INFO
   retention_period: "1"
+  username: "admin"
+  password: "change-me"
 schema:
   log_level: list(ERROR|WARN|INFO|DEBUG)
   retention_period: str
+  username: str
+  password: password
