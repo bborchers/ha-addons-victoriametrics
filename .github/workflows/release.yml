@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.result.outputs.version }}
+      published: ${{ steps.result.outputs.published }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Record the current release tag
+        id: before
+        run: echo "tag=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n1)" >> "$GITHUB_OUTPUT"
+      - name: Install semantic-release
+        run: npm install --no-save semantic-release @semantic-release/commit-analyzer @semantic-release/release-notes-generator @semantic-release/github
+      - name: Run semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
+      - name: Determine whether a release was published
+        id: result
+        run: |
+          git fetch --tags --force
+          AFTER=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n1)
+          if [ -n "$AFTER" ] && [ "$AFTER" != "${{ steps.before.outputs.tag }}" ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "version=${AFTER#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+  deploy:
+    needs: release
+    if: ${{ needs.release.outputs.published == 'true' }}
+    uses: bborchers/ha-addons-workflow/.github/workflows/build-deploy.yml@main
+    with:
+      addon-path: victoriametrics
+      slug: victoriametrics
+      version: ${{ needs.release.outputs.version }}
+    secrets:
+      dispatch-token: ${{ secrets.DISPATCH_TOKEN }}
+    permissions:
+      contents: read
+      packages: write

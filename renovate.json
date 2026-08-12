@@ -1,0 +1,54 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Europe/Berlin",
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate: open updates",
+  "dependencyDashboardApproval": false,
+  "prCreation": "immediate",
+  "semanticCommits": "enabled",
+  "assignees": ["bborchers"],
+  "gitAuthor": "Bjoern Borchers <bborchers@users.noreply.github.com>",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)build\\.yaml$/"],
+      "matchStrings": [
+        "VICTORIAMETRICS_VERSION:\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "depNameTemplate": "VictoriaMetrics/VictoriaMetrics",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)build\\.yaml$/"],
+      "matchStrings": [
+        "ghcr\\.io/hassio-addons/base/(?<depName>[a-zA-Z0-9]+):(?<currentValue>[^\\s\"]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "ghcr.io/hassio-addons/base/{{{depName}}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["github-releases"],
+      "matchPackageNames": ["VictoriaMetrics/VictoriaMetrics"],
+      "groupName": "VictoriaMetrics",
+      "minimumReleaseAge": "3 days",
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/hassio-addons/base/*"],
+      "groupName": "hassio-addons base image",
+      "minimumReleaseAge": "3 days",
+      "semanticCommitType": "fix"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "semanticCommitScope": "ci",
+      "groupName": "GitHub Actions"
+    }
+  ]
+}

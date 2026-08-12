@@ -1,0 +1,8 @@
+name: Commit Lint
+
+on:
+  pull_request:
+
+jobs:
+  commitlint:
+    uses: bborchers/ha-addons-workflow/.github/workflows/commitlint.yml@main

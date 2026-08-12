@@ -1,0 +1,20 @@
+name: "VictoriaMetrics"
+version: "dev"
+slug: "victoriametrics"
+description: "VictoriaMetrics single-node time-series database"
+url: "https://github.com/bborchers/ha-addons-victoriametrics/tree/main/victoriametrics"
+arch:
+  - aarch64
+  - amd64
+init: false
+webui: "http://[HOST]:[PORT:8428]"
+ports:
+  8428/tcp: 8428
+ports_description:
+  8428/tcp: "VictoriaMetrics HTTP API and Web UI"
+options:
+  log_level: INFO
+  retention_period: "1"
+schema:
+  log_level: list(ERROR|WARN|INFO|DEBUG)
+  retention_period: str

@@ -1,0 +1,12 @@
+name: Lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    uses: bborchers/ha-addons-workflow/.github/workflows/lint.yml@main
+    with:
+      addon-path: victoriametrics

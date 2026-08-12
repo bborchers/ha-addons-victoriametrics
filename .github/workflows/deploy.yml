@@ -1,0 +1,17 @@
+name: Deploy
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    uses: bborchers/ha-addons-workflow/.github/workflows/build-deploy.yml@main
+    with:
+      addon-path: victoriametrics
+      slug: victoriametrics
+    secrets:
+      dispatch-token: ${{ secrets.DISPATCH_TOKEN }}
+    permissions:
+      contents: read
+      packages: write
