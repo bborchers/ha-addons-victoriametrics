@@ -10,6 +10,9 @@ init: false
 ingress: true
 ingress_port: 8429
 ingress_entry: /vmui
+map:
+  - type: addon_config
+    read_only: false
 ports:
   8428/tcp: 8428
 ports_description:

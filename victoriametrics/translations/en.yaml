@@ -13,4 +13,4 @@ configuration:
     description: Password required for HTTP Basic Authentication through vmauth. Change the default before exposing the add-on to other networks.
   scrape_configs:
     name: Prometheus Scrape Configuration
-    description: Optional YAML configuration containing one or more VictoriaMetrics scrape jobs. Include the top-level scrape_configs key.
+    description: Legacy fallback for scrape.yml. For multiline editing with YAML highlighting, create scrape.yml in the add-on configuration folder.
