@@ -9,6 +9,8 @@ LOG_LEVEL=$(bashio::config 'log_level')
 RETENTION_PERIOD=$(bashio::config 'retention_period')
 USERNAME=$(bashio::config 'username')
 PASSWORD=$(bashio::config 'password')
+SCRAPE_CONFIG=$(bashio::config 'scrape_configs')
+SCRAPE_CONFIG_FILE=${DATA_DIR}/scrape.yml
 
 mkdir -p "${DATA_DIR}"
 
@@ -18,6 +20,16 @@ PASSWORD_YAML=$(printf '%s' "${PASSWORD}" | sed "s/'/''/g")
 printf "users:\n  - username: '%s'\n    password: '%s'\n    url_prefix: 'http://127.0.0.1:8429'\n" \
     "${USERNAME_YAML}" "${PASSWORD_YAML}" > "${AUTH_CONFIG_FILE}"
 chmod 600 "${AUTH_CONFIG_FILE}"
+
+if [[ -n "${SCRAPE_CONFIG}" ]]; then
+    printf '%s\n' "${SCRAPE_CONFIG}" > "${SCRAPE_CONFIG_FILE}"
+    chmod 600 "${SCRAPE_CONFIG_FILE}"
+    SCRAPE_CONFIG_ARGS=("-promscrape.config=${SCRAPE_CONFIG_FILE}")
+    bashio::log.info "Prometheus scrape configuration enabled."
+else
+    rm -f "${SCRAPE_CONFIG_FILE}"
+    SCRAPE_CONFIG_ARGS=()
+fi
 
 bashio::log.info "Starting VictoriaMetrics..."
 bashio::log.info "Log level: ${LOG_LEVEL}"
@@ -30,7 +42,8 @@ cd /opt/victoriametrics || bashio::exit.nok "VictoriaMetrics installation direct
     -storageDataPath="${DATA_DIR}" \
     -retentionPeriod="${RETENTION_PERIOD}" \
     -loggerLevel="${LOG_LEVEL}" \
-    -httpListenAddr="127.0.0.1:8429" &
+    -httpListenAddr="127.0.0.1:8429" \
+    "${SCRAPE_CONFIG_ARGS[@]}" &
 VICTORIAMETRICS_PID=$!
 
 /opt/vmauth/vmauth-prod \

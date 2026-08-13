@@ -11,3 +11,6 @@ configuration:
   password:
     name: Passwort
     description: Passwort für die HTTP-Basic-Authentifizierung über vmauth. Vor der Erreichbarkeit aus anderen Netzwerken den Standardwert ändern.
+  scrape_configs:
+    name: Prometheus-Scrape-Konfiguration
+    description: Optionale YAML-Konfiguration mit einem oder mehreren VictoriaMetrics-Scrape-Jobs. Der oberste Schlüssel scrape_configs muss enthalten sein.
