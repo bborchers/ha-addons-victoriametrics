@@ -17,7 +17,7 @@ log_level: INFO
 retention_period: "1m"
 username: "admin"
 password: "change-me"
-scrape_configs: ""
+scrape_configs: []
 ```
 
 ### Option: `log_level`
@@ -38,35 +38,28 @@ Password required by the `vmauth` proxy on port `8428`. Change the default befor
 
 ### Option: `scrape_configs`
 
-For multiline editing with YAML syntax highlighting, create the file
-`scrape.yml` in the add-on's public configuration folder
-(`/addon_configs/<repository>_victoriametrics/`) and edit it with the Home
-Assistant File editor. The add-on loads this file automatically and passes it
-to VictoriaMetrics through `-promscrape.config`.
-
-The file must include the top-level `scrape_configs` key. Multiple scrape jobs
-can be configured in the list, for example:
+Configure one or more scrape jobs directly in the Home Assistant add-on
+configuration. Each entry has a `job_name` and one or more `targets`:
 
 ```yaml
 scrape_configs:
-  - job_name: node-exporter
-    static_configs:
-      - targets:
-          - "homeassistant.local:9100"
-  - job_name: another-exporter
-    static_configs:
-      - targets:
-          - "192.168.1.20:8080"
+  - job_name: "node-exporter"
+    targets:
+      - "homeassistant.local:9100"
+  - job_name: "another-exporter"
+    targets:
+      - "192.168.1.20:8080"
 ```
 
-VictoriaMetrics supports additional discovery and relabeling options such as
-`file_sd_configs`, `http_sd_configs`, and `relabel_configs`; see the [scrape
-configuration examples](https://docs.victoriametrics.com/victoriametrics/scrape_config_examples/).
+The add-on generates the complete VictoriaMetrics configuration with the
+top-level `scrape_configs` key and `static_configs` for each entry. Targets
+must be reachable from the add-on container. This simplified configuration
+supports static targets; for advanced discovery and relabeling options such as
+`file_sd_configs`, `http_sd_configs`, and `relabel_configs`, use a separate
+VictoriaMetrics configuration file as described in the [scrape configuration
+examples](https://docs.victoriametrics.com/victoriametrics/scrape_config_examples/).
 
-For backwards compatibility, the `scrape_configs` add-on option can still be
-used when `/config/scrape.yml` does not exist. The file takes precedence over
-the option. Leave both empty or remove the file to disable scraping. Targets
-must be reachable from the add-on container.
+Leave the list empty to disable scraping.
 
 ## Using VictoriaMetrics
 

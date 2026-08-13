@@ -12,5 +12,12 @@ configuration:
     name: Passwort
     description: Passwort für die HTTP-Basic-Authentifizierung über vmauth. Vor der Erreichbarkeit aus anderen Netzwerken den Standardwert ändern.
   scrape_configs:
-    name: Prometheus-Scrape-Konfiguration
-    description: Rückwärtskompatibler Fallback für scrape.yml. Für mehrzeilige Bearbeitung mit YAML-Hervorhebung scrape.yml im Add-on-Konfigurationsordner anlegen.
+    name: Prometheus-Scrape-Jobs
+    description: Einen oder mehrere statische Prometheus-Scrape-Jobs mit Job-Namen und Zieladressen konfigurieren.
+    fields:
+      job_name:
+        name: Job-Name
+        description: Name des Prometheus-Scrape-Jobs.
+      targets:
+        name: Ziele
+        description: Hostnamen oder IP-Adressen mit Ports, die abgefragt werden sollen.

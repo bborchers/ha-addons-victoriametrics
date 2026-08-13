@@ -10,9 +10,6 @@ init: false
 ingress: true
 ingress_port: 8429
 ingress_entry: /vmui
-map:
-  - type: addon_config
-    read_only: false
 ports:
   8428/tcp: 8428
 ports_description:
@@ -22,10 +19,13 @@ options:
   retention_period: "1m"
   username: "admin"
   password: "change-me"
-  scrape_configs: ""
+  scrape_configs: []
 schema:
   log_level: list(ERROR|WARN|INFO|DEBUG)
   retention_period: str
   username: str
   password: password
-  scrape_configs: str
+  scrape_configs:
+    - job_name: str
+      targets:
+        - str

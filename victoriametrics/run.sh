@@ -9,9 +9,8 @@ LOG_LEVEL=$(bashio::config 'log_level')
 RETENTION_PERIOD=$(bashio::config 'retention_period')
 USERNAME=$(bashio::config 'username')
 PASSWORD=$(bashio::config 'password')
-SCRAPE_CONFIG=$(bashio::config 'scrape_configs')
 SCRAPE_CONFIG_FILE=${DATA_DIR}/scrape.yml
-PUBLIC_SCRAPE_CONFIG_FILE=/config/scrape.yml
+OPTIONS=$(bashio::addon.options)
 
 mkdir -p "${DATA_DIR}"
 
@@ -22,16 +21,19 @@ printf "users:\n  - username: '%s'\n    password: '%s'\n    url_prefix: 'http://
     "${USERNAME_YAML}" "${PASSWORD_YAML}" > "${AUTH_CONFIG_FILE}"
 chmod 600 "${AUTH_CONFIG_FILE}"
 
-if [[ -f "${PUBLIC_SCRAPE_CONFIG_FILE}" ]]; then
-    cp "${PUBLIC_SCRAPE_CONFIG_FILE}" "${SCRAPE_CONFIG_FILE}"
+if printf '%s' "${OPTIONS}" | jq -e '.scrape_configs | length > 0' >/dev/null; then
+    printf '%s' "${OPTIONS}" | jq -r '
+        "scrape_configs:",
+        (.scrape_configs[] |
+          "  - job_name: " + (.job_name | @json),
+          "    static_configs:",
+          "      - targets:",
+          (.targets[] | "          - " + (@json))
+        )
+    ' > "${SCRAPE_CONFIG_FILE}"
     chmod 600 "${SCRAPE_CONFIG_FILE}"
     SCRAPE_CONFIG_ARGS=("-promscrape.config=${SCRAPE_CONFIG_FILE}")
-    bashio::log.info "Prometheus scrape configuration loaded from /config/scrape.yml."
-elif [[ -n "${SCRAPE_CONFIG}" ]]; then
-    printf '%s\n' "${SCRAPE_CONFIG}" > "${SCRAPE_CONFIG_FILE}"
-    chmod 600 "${SCRAPE_CONFIG_FILE}"
-    SCRAPE_CONFIG_ARGS=("-promscrape.config=${SCRAPE_CONFIG_FILE}")
-    bashio::log.info "Prometheus scrape configuration loaded from the add-on options."
+    bashio::log.info "Prometheus scrape configuration generated from the add-on options."
 else
     rm -f "${SCRAPE_CONFIG_FILE}"
     SCRAPE_CONFIG_ARGS=()
