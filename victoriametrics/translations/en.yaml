@@ -12,5 +12,12 @@ configuration:
     name: Password
     description: Password required for HTTP Basic Authentication through vmauth. Change the default before exposing the add-on to other networks.
   scrape_configs:
-    name: Prometheus Scrape Configuration
-    description: Legacy fallback for scrape.yml. For multiline editing with YAML highlighting, create scrape.yml in the add-on configuration folder.
+    name: Prometheus Scrape Jobs
+    description: Configure one or more static Prometheus scrape jobs with a job name and target addresses.
+    fields:
+      job_name:
+        name: Job Name
+        description: Name of the Prometheus scrape job.
+      targets:
+        name: Targets
+        description: Hostnames or IP addresses with ports to scrape.
