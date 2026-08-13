@@ -38,9 +38,14 @@ Password required by the `vmauth` proxy on port `8428`. Change the default befor
 
 ### Option: `scrape_configs`
 
-Optional YAML passed to VictoriaMetrics through `-promscrape.config`. Include the
-top-level `scrape_configs` key. Multiple scrape jobs can be configured in the
-list, for example:
+For multiline editing with YAML syntax highlighting, create the file
+`scrape.yml` in the add-on's public configuration folder
+(`/addon_configs/<repository>_victoriametrics/`) and edit it with the Home
+Assistant File editor. The add-on loads this file automatically and passes it
+to VictoriaMetrics through `-promscrape.config`.
+
+The file must include the top-level `scrape_configs` key. Multiple scrape jobs
+can be configured in the list, for example:
 
 ```yaml
 scrape_configs:
@@ -54,13 +59,14 @@ scrape_configs:
           - "192.168.1.20:8080"
 ```
 
-The complete YAML block is entered as the `scrape_configs` value in the Home
-Assistant add-on configuration. VictoriaMetrics supports additional discovery
-and relabeling options such as `file_sd_configs`, `http_sd_configs`, and
-`relabel_configs`; see the [scrape configuration examples](https://docs.victoriametrics.com/victoriametrics/scrape_config_examples/).
+VictoriaMetrics supports additional discovery and relabeling options such as
+`file_sd_configs`, `http_sd_configs`, and `relabel_configs`; see the [scrape
+configuration examples](https://docs.victoriametrics.com/victoriametrics/scrape_config_examples/).
 
-Leave this option empty to disable scraping. Targets must be reachable from
-the add-on container.
+For backwards compatibility, the `scrape_configs` add-on option can still be
+used when `/config/scrape.yml` does not exist. The file takes precedence over
+the option. Leave both empty or remove the file to disable scraping. Targets
+must be reachable from the add-on container.
 
 ## Using VictoriaMetrics
 
