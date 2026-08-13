@@ -42,7 +42,7 @@ cd /opt/victoriametrics || bashio::exit.nok "VictoriaMetrics installation direct
     -storageDataPath="${DATA_DIR}" \
     -retentionPeriod="${RETENTION_PERIOD}" \
     -loggerLevel="${LOG_LEVEL}" \
-    -httpListenAddr="127.0.0.1:8429" \
+    -httpListenAddr=":8429" \
     "${SCRAPE_CONFIG_ARGS[@]}" &
 VICTORIAMETRICS_PID=$!
 

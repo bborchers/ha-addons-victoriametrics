@@ -2,8 +2,9 @@
 
 This add-on provides the open-source [VictoriaMetrics single-node server](https://docs.victoriametrics.com/victoriametrics/), a fast and resource-efficient time-series database for Prometheus-compatible metrics.
 
-The HTTP API and built-in web UI are available at and protected by HTTP Basic
-Authentication:
+The built-in web UI is opened inside Home Assistant through its authenticated
+Ingress. The HTTP API and remote-write endpoint remain available on port 8428
+and are protected by HTTP Basic Authentication:
 
 ```text
 http://<home-assistant-ip>:8428
@@ -69,7 +70,7 @@ VictoriaMetrics accepts Prometheus remote-write requests at:
 http://<home-assistant-ip>:8428/api/v1/write
 ```
 
-Prometheus-compatible queries use the standard endpoints such as `/api/v1/query` and `/api/v1/query_range`. The built-in UI is available at `/vmui`.
+Prometheus-compatible queries use the standard endpoints such as `/api/v1/query` and `/api/v1/query_range`. Click **Open Web UI** in the add-on page to open the built-in UI through Home Assistant Ingress. The Ingress connection uses the internal VictoriaMetrics port and does not require the configured Basic Auth credentials.
 
 ## Data and backups
 
