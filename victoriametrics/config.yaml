@@ -7,7 +7,9 @@ arch:
   - aarch64
   - amd64
 init: false
-webui: "http://[HOST]:[PORT:8428]"
+ingress: true
+ingress_port: 8429
+ingress_entry: /vmui
 ports:
   8428/tcp: 8428
 ports_description:
