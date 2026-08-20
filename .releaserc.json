@@ -8,7 +8,21 @@
         "releaseRules": [{ "type": "chore", "scope": "deps", "release": "patch" }]
       }
     ],
-    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits",
+        "presetConfig": {
+          "types": [
+            { "type": "feat", "section": "Features" },
+            { "type": "fix", "section": "Bug Fixes" },
+            { "type": "perf", "section": "Performance Improvements" },
+            { "type": "chore", "scope": "deps", "section": "Dependency Updates" },
+            { "type": "chore", "scope": "ci", "section": "CI Updates" }
+          ]
+        }
+      }
+    ],
     "@semantic-release/github"
   ]
 }
