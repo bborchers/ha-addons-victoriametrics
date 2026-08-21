@@ -35,15 +35,13 @@
       "matchDatasources": ["github-releases"],
       "matchPackageNames": ["VictoriaMetrics/VictoriaMetrics"],
       "groupName": "VictoriaMetrics",
-      "minimumReleaseAge": "3 days",
-      "semanticCommitType": "fix"
+      "minimumReleaseAge": "3 days"
     },
     {
       "matchDatasources": ["docker"],
       "matchPackageNames": ["ghcr.io/hassio-addons/base/*"],
       "groupName": "hassio-addons base image",
-      "minimumReleaseAge": "3 days",
-      "semanticCommitType": "fix"
+      "minimumReleaseAge": "3 days"
     },
     {
       "matchManagers": ["github-actions"],
