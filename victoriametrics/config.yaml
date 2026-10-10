@@ -10,6 +10,8 @@ init: false
 ingress: true
 ingress_port: 8429
 ingress_entry: /vmui
+panel_icon: mdi:database-clock
+panel_title: VictoriaMetrics
 ports:
   8428/tcp: 8428
 ports_description:
