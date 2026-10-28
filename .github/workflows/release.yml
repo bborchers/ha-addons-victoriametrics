@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
       - name: Record the current release tag
         id: before
         run: echo "tag=$(git tag --list 'v*.*.*' --sort=-v:refname | head -n1)" >> "$GITHUB_OUTPUT"
